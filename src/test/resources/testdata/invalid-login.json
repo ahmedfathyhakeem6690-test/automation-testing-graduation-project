@@ -1,0 +1,3 @@
+[
+  { "username": "wronguser", "password": "wrong123", "expected": "Invalid credentials" }
+]
