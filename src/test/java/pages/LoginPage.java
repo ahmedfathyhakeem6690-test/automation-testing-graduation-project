@@ -27,6 +27,9 @@ public class LoginPage extends BasePage{
         waitToVisible(RequiredLoc);
         return driver.findElements(RequiredLoc).stream().map(WebElement::getText).toList();
     }
+    public String getReqMsg(By locator){
+        return getText(locator);
+    }
 
 
 

@@ -25,6 +25,7 @@ public class DriverManager {
                 break;
             default:
                 webDriver = ThreadGuard.protect(new ChromeDriver());
+
         }
         webDriver.manage().window().maximize();
         driver.set(webDriver);

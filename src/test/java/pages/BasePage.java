@@ -1,10 +1,7 @@
 package pages;
 
 import base.DriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ConfigReader;
@@ -51,12 +48,22 @@ public class BasePage {
         }
     }
 
-    protected boolean itContains (By locator , String text){
+    public boolean waitForUrlContains(String text){
         try {
-            return waitToVisible(locator).getText().contains(text);
+            return wait.until(ExpectedConditions.urlContains(text));
         }catch (TimeoutException e){
             return false;
         }
     }
+    public String getReqMsg(By locator){
+        return getText(locator);
+    }
+    public String getValue(By locator) {
+        return wait.ignoring(StaleElementReferenceException.class).until(d -> {
+            String value = d.findElement(locator).getAttribute("value");
+            return (value == null || value.isEmpty()) ? null : value;
+        });
+    }
+
 
 }
