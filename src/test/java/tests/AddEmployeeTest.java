@@ -39,7 +39,7 @@ public class AddEmployeeTest extends BaseTest {
     @Test(dataProvider = "validLogin", dataProviderClass = DataProviders.class)
     @Epic("Add Employee")
     @Feature("Add Employee")
-    @Description("Verify that can add employee")
+    @Description("Verify that saving without a first name shows a Required error")
     @Severity(SeverityLevel.CRITICAL)
     public void addEmployeeEmpty (User user) {
 
@@ -53,17 +53,14 @@ public class AddEmployeeTest extends BaseTest {
         AddEmployeePage addEmployee = new AddEmployeePage();
         Allure.step("Open Add Employee Page", pim::openAddEmployeePage);
 
-        String first = "";
-        String last = "Fathy";
+        Allure.step("Enter last name only and click Save", () ->
+                addEmployee.enterNamesAndSave("", "Fathy"));
 
-        Allure.step("Enter the Last Name only and leave First Name empty", ()->
-                addEmployee.FirstName(first) + addEmployee.LastName(last));
 
-        Allure.step("Click Save" , addEmployee:: Save);
 
-        Allure.step("Assert the validation error \"Required\" is displayed under First Name" ,
-                () -> Assert.assertEquals(addEmployee.errorMsg(first, last), "Required"));
-
+        Allure.step("Assert Required is displayed under First Name", () ->
+                Assert.assertEquals(addEmployee.getRequiredMessage(), "Required",
+                        "Validation message mismatch"));
     }
     @Test(dataProvider = "validLogin", dataProviderClass = DataProviders.class)
     @Epic("Add Employee")
@@ -84,9 +81,10 @@ public class AddEmployeeTest extends BaseTest {
 
         String first = ConfigReader.get("firstName");
         String last = ConfigReader.get("lastName");
-
-        Allure.step("Enter first and last name", () ->
-                addEmployee.FirstName(first) + addEmployee.LastName(last));
+        step("Enter first and last name", () -> {
+            addEmployee.FirstName(first);
+            addEmployee.LastName(last);
+        });
 
         Allure.step("Click Save", addEmployee::Save);
 

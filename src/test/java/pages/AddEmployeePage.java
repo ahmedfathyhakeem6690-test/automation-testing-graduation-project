@@ -34,17 +34,14 @@ public class AddEmployeePage extends BasePage{
         onClick(saveBtnLoc);
     }
 
-    public void AddEmployee(String firstName, String lastName){
-        waitToVisible(firstNameInputLoc);
-        waitToVisible(lastNameInputLoc);
-        waitToVisible(saveBtnLoc);
+
+    public void enterNamesAndSave(String firstName, String lastName) {
         typeText(firstNameInputLoc, firstName);
         typeText(lastNameInputLoc, lastName);
         onClick(saveBtnLoc);
     }
 
-    public String errorMsg(String firstName, String lastName){
-        AddEmployee(firstName, lastName);
+    public String getRequiredMessage() {
         waitToVisible(requiredMsgLoc);
         return getText(requiredMsgLoc);
     }
